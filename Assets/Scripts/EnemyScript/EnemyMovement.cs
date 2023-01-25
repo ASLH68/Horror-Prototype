@@ -32,10 +32,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _movementType = _movementType == MovementType.CircleAroundObj ? MovementType.FollowObj : MovementType.CircleAroundObj;
-        }
+
     }
 
     // Update is called once per frame
@@ -56,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector2 circleDir = (transform.position - _followObj.position).normalized;
             float circleAngle = Mathf.Atan2(circleDir.y, circleDir.x) * Mathf.Rad2Deg;
-            float nextAngle = (circleAngle + ((10 * _speed) / _radius)) % 360;
+            float nextAngle = (circleAngle + ((10 * _speed) / Mathf.Max(_radius, 1))) % 360;
 
             followPos = (Vector2)_followObj.position + AddVector(nextAngle, _radius);
         }
@@ -69,7 +66,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (distanceToNext > 0)
         {
-            float movementRatio = -(1 / (((distanceToNext * _speed) / 10000) + 1)) + 1;
+            float movementRatio = -(1 / Mathf.Max((((distanceToNext * _speed) / 10000) + 1), 0.001f)) + 1;
             transform.position = (transform.position * (1 - movementRatio)) + ((Vector3)followPos * movementRatio);
         }
     }

@@ -31,7 +31,7 @@ public class SegmentBehaviour : MonoBehaviour
 
         if (distanceToNext > _size)
         {
-            float movementRatio = -(1 / (distanceToNext - _size + 1)) + 1;
+            float movementRatio = -(1 / Mathf.Max((distanceToNext - _size + 1), 0.001f)) + 1;
 
             transform.position = (transform.position * (1 - movementRatio)) + (_next.position * movementRatio);
         }

@@ -13,6 +13,8 @@ using UnityEngine;
 public class LighterBehaviour : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField]
+    private Rigidbody2D _plrRb2d;
 
     [Header("General Info")]
     private bool _turnedOn;
@@ -49,7 +51,6 @@ public class LighterBehaviour : MonoBehaviour
     [Header("Internal")]
     private float _targetSize;
     private Coroutine _lightCoroutine;
-    private Vector2 _lastPos;
     private float _speed;
 
     // Start is called before the first frame update
@@ -58,16 +59,13 @@ public class LighterBehaviour : MonoBehaviour
         _fuelAmount = 1f;
         _targetSize = 0;
         _turnedOn = false;
-        _lastPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _speed = (_lastPos - (Vector2)transform.position).magnitude;
-        _lastPos = transform.position;
 
-        if (_speed > _maxMoveSpeed)
+        if (_plrRb2d.velocity.magnitude > _maxMoveSpeed)
         {
             if (_lightCoroutine != null)
             {
