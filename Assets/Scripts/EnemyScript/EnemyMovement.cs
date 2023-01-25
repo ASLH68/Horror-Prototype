@@ -14,6 +14,10 @@ public class EnemyMovement : MonoBehaviour
 {
     private enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static }
 
+    [Header("References")]
+    [SerializeField]
+    private LighterBehaviour _lighter;
+
     [Header("Movement Settings")]
     [SerializeField]
     private MovementType _movementType;
@@ -30,14 +34,17 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private float _radius;
 
-    private void Update()
-    {
-
-    }
+    [Header("Internal")]
+    private Coroutine _chargeCoroutine;
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (_chargeCoroutine != null && _lighter.TurnedOn)
+        {
+            StopCoroutine(_chargeCoroutine);
+        }
+
         Vector2 followPos = transform.position;
 
         if (_movementType == MovementType.FollowObj)
@@ -75,4 +82,16 @@ public class EnemyMovement : MonoBehaviour
     {
         return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
     }
+    
+    private IEnumerator Charge()
+    {
+        Vector2 startPos = transform.position;
+        Vector2 endPos = startPos + (Vector2.up * 100);
+
+        while (Vector2.Distance(transform.position, endPos) > 1)
+        {
+            _movementType = MovementType.FollowObj;
+        }
+    }
+    
 }

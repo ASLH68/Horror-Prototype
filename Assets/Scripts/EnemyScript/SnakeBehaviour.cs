@@ -23,9 +23,6 @@ public class SnakeBehaviour : MonoBehaviour
     private int _segmentCount;
     [SerializeField]
     private float _segmentSize;
-    [SerializeField]
-    [Range(0, 1)]
-    private float _segmentSpeed;
 
     // Start is called before the first frame update
     void Start()
