@@ -5,6 +5,7 @@
 //
 // Brief Description : This script controls the enabling/disabling of the lighter
 *****************************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,7 @@ public class LighterBehaviour : MonoBehaviour
     [Tooltip("The percentage of fuel to use each time the lighter is flicked")]
     [Range(0, 1)]
     private float _flickFuelCost;
+    [SerializeField]
     [Tooltip("The percentage chance that the lighter fails to light")]
     [Range(0, 1)]
     private float _flickFailChance;
