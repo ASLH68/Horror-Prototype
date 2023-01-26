@@ -237,12 +237,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ef1b4ff2e84c943ab1e651ec5073b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lighter: {fileID: 0}
+  _lighter: {fileID: 636773446}
   _movementType: 2
   _speed: 50
   _constantSpeed: 0
+  _passiveSpeed: 50
+  _aggroSpeed: 15
   _followObj: {fileID: 1124504722}
   _radius: 35
+  _targetPos: {x: 0, y: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,10 +377,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817383a14a291d649842419aa3d1c47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _plrRb2d: {fileID: 1124504725}
   _passiveFuelCost: 0.005
   _flickFuelCost: 0.025
   _flickFailChance: 0.1
-  _maxMoveSpeed: 0.2
+  _maxMoveSpeed: 12
   _lightSize: 3
   _flickSize: 6
   _lightSpeed: 0.025

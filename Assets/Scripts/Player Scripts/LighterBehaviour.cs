@@ -12,10 +12,9 @@ using UnityEngine;
 
 public class LighterBehaviour : MonoBehaviour
 {
-    /*
     [Header("References")]
     [SerializeField]
-    private Rigidbody2D _plrRb2d;*/
+    private Rigidbody2D _plrRb2d;
 
     [Header("General Info")]
     private bool _turnedOn;
@@ -68,7 +67,6 @@ public class LighterBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
         if (_plrRb2d.velocity.magnitude > _maxMoveSpeed)
         {
             if (_lightCoroutine != null)
@@ -78,7 +76,7 @@ public class LighterBehaviour : MonoBehaviour
             transform.localScale = Vector2.zero;
             _targetSize = 0;
             _turnedOn = false;
-        }*/
+        }
 
         if (Input.GetMouseButtonDown(0))
         {

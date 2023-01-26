@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static }
+    private enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static, GoTo }
 
     [Header("References")]
     [SerializeField]
@@ -25,6 +25,11 @@ public class EnemyMovement : MonoBehaviour
     private float _speed;
     [SerializeField]
     private bool _constantSpeed;
+    [Space(30)]
+    [SerializeField]
+    private float _passiveSpeed;
+    [SerializeField]
+    private float _aggroSpeed;
 
     [Header("Follow Object")]
     [SerializeField]
@@ -34,15 +39,29 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private float _radius;
 
+    [Header("Go To")]
+    [SerializeField]
+    private Vector2 _targetPos;
+
     [Header("Internal")]
     private Coroutine _chargeCoroutine;
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (_chargeCoroutine != null && _lighter.TurnedOn)
+        if (_lighter.TurnedOn)
         {
-            StopCoroutine(_chargeCoroutine);
+            if (_chargeCoroutine != null)
+            {
+                StopCoroutine(_chargeCoroutine);
+                _chargeCoroutine = null;
+            }
+            _speed = _passiveSpeed;
+            _movementType = MovementType.CircleAroundObj;
+        }
+        else if (_chargeCoroutine == null)
+        {
+            _chargeCoroutine = StartCoroutine(Charge());
         }
 
         Vector2 followPos = transform.position;
@@ -54,6 +73,10 @@ public class EnemyMovement : MonoBehaviour
         else if (_movementType == MovementType.FollowMouse)
         {
             followPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+        else if (_movementType == MovementType.GoTo)
+        {
+            followPos = _targetPos;
         }
 
         if (_movementType == MovementType.CircleAroundObj)
@@ -85,13 +108,19 @@ public class EnemyMovement : MonoBehaviour
     
     private IEnumerator Charge()
     {
-        Vector2 startPos = transform.position;
-        Vector2 endPos = startPos + (Vector2.up * 100);
+        _movementType = MovementType.GoTo;
+        _targetPos = transform.position + (Vector3.up * 100);
 
-        while (Vector2.Distance(transform.position, endPos) > 1)
+        _speed = _passiveSpeed / 2;
+
+        while (Vector2.Distance(transform.position, _targetPos) > 1)
         {
-            _movementType = MovementType.FollowObj;
+            yield return null;
         }
+
+        _movementType = MovementType.FollowObj;
+
+        _speed = _aggroSpeed;
     }
     
 }
