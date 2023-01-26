@@ -58,6 +58,7 @@ public class EnemyMovement : MonoBehaviour
             }
             _speed = _passiveSpeed;
             _movementType = MovementType.CircleAroundObj;
+            _constantSpeed = false;
         }
         else if (_chargeCoroutine == null)
         {
@@ -96,8 +97,15 @@ public class EnemyMovement : MonoBehaviour
 
         if (distanceToNext > 0)
         {
-            float movementRatio = -(1 / Mathf.Max((((distanceToNext * _speed) / 10000) + 1), 0.001f)) + 1;
-            transform.position = (transform.position * (1 - movementRatio)) + ((Vector3)followPos * movementRatio);
+            if (_constantSpeed || true)
+            {
+                transform.position += _speed * Time.deltaTime * direction.normalized;
+            }
+            else
+            {
+                float movementRatio = -(1 / Mathf.Max((((distanceToNext * _speed) / 10000) + 1), 0.001f)) + 1;
+                transform.position = (transform.position * (1 - movementRatio)) + ((Vector3)followPos * movementRatio);
+            }
         }
     }
 
@@ -110,7 +118,6 @@ public class EnemyMovement : MonoBehaviour
     {
         _movementType = MovementType.GoTo;
         _targetPos = transform.position + (Vector3.up * 100);
-
         _speed = _passiveSpeed / 2;
 
         while (Vector2.Distance(transform.position, _targetPos) > 1)
@@ -118,8 +125,8 @@ public class EnemyMovement : MonoBehaviour
             yield return null;
         }
 
+        _constantSpeed = true;
         _movementType = MovementType.FollowObj;
-
         _speed = _aggroSpeed;
     }
     

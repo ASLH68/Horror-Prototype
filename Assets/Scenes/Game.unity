@@ -241,8 +241,8 @@ MonoBehaviour:
   _movementType: 2
   _speed: 50
   _constantSpeed: 0
-  _passiveSpeed: 50
-  _aggroSpeed: 15
+  _passiveSpeed: 35
+  _aggroSpeed: 40
   _followObj: {fileID: 1124504722}
   _radius: 35
   _targetPos: {x: 0, y: 0}

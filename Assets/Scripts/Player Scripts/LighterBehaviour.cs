@@ -51,7 +51,6 @@ public class LighterBehaviour : MonoBehaviour
     [Header("Internal")]
     private float _targetSize;
     private Coroutine _lightCoroutine;
-    private float _speed;
 
     public bool OutOfFuel => _fuelAmount <= 0;
     public bool TurnedOn => _turnedOn;
