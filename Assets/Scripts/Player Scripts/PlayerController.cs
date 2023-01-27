@@ -13,8 +13,9 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    [Header("components")]
+    [Header("Components")]
     [SerializeField] private Rigidbody2D _rb2d;
+    [SerializeField] private LighterBehaviour _lighterBehaviour;
 
     #region Movement Variables
 
@@ -23,6 +24,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _runSpeed = 15;
 
     private int _currentSpeed;
+
+    #endregion
+
+    #region Animation Variables
+    [Header("Animation Variables")]
+    [SerializeField] Animator _anim;
+
     #endregion
     #endregion
 
@@ -45,6 +53,7 @@ public class PlayerController : MonoBehaviour
             _currentSpeed = _runSpeed;
         }
         _rb2d.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized * _currentSpeed;
+        DetermineAnim();
     }
 
     /// <summary>
@@ -55,6 +64,45 @@ public class PlayerController : MonoBehaviour
     {
         return Input.GetKey(KeyCode.LeftShift);
     }
+    #endregion
+
+    #region Animations
+
+    /// <summary>
+    /// Plays anim depending on whether the lighter is on or not
+    /// </summary>
+    /// <param name="name"></param>
+    private void PlayAnimation(string name)
+    {
+        if (_lighterBehaviour.LighterOn())
+        {
+            _anim.Play(name + "Lighter");
+        }
+        else
+        {
+            _anim.Play(name);
+        }
+    }
+
+    /// <summary>
+    /// Plays the correct anim depending on direction of player velocity
+    /// </summary>
+    private void DetermineAnim()
+    {
+        if(_rb2d.velocity.x == 0 && _rb2d.velocity.y != 0)
+        {
+            PlayAnimation("PlayerDefault");
+        }
+        else if(_rb2d.velocity.x > 0)
+        {
+            PlayAnimation("PlayerMove");
+        }
+        else if(_rb2d.velocity.x < 0)
+        {
+            PlayAnimation("PlayerMoveLeft");
+        }
+    }
+
     #endregion
     #endregion
 }

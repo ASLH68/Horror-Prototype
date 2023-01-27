@@ -128,4 +128,12 @@ public class LighterBehaviour : MonoBehaviour
             _targetSize = 0;
         }
     }
+
+    /// <summary>
+    /// Returns where or not the lighter is turned on
+    /// </summary>
+    public bool LighterOn()
+    {
+        return _turnedOn;
+    }
 }
