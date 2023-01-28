@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="name"></param>
     private void PlayAnimation(string name)
     {
-        if (_lighterBehaviour.LighterOn())
+        if (_lighterBehaviour.TurnedOn)
         {
             _anim.Play(name + "Lighter");
         }
