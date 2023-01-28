@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static, GoTo }
+    public enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static, GoTo }
 
     [Header("References")]
     [SerializeField]
@@ -45,6 +45,11 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Internal")]
     private Coroutine _chargeCoroutine;
+
+    public void SetMovementType(MovementType type)
+    {
+        _movementType = type;
+    }
 
     // Update is called once per frame
     void FixedUpdate()

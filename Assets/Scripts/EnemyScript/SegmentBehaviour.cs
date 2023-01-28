@@ -21,7 +21,7 @@ public class SegmentBehaviour : MonoBehaviour
         _size = size;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         Vector3 direction = _next.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -32,7 +32,6 @@ public class SegmentBehaviour : MonoBehaviour
         if (distanceToNext > _size)
         {
             float movementRatio = -(1 / Mathf.Max((distanceToNext - _size + 1), 0.001f)) + 1;
-
             transform.position = (transform.position * (1 - movementRatio)) + (_next.position * movementRatio);
         }
     }

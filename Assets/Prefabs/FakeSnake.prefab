@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2347420126620381742
+--- !u!1 &2664601289865029598
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6298890057636013671}
-  - component: {fileID: 5854018943892185405}
-  - component: {fileID: 3300171280130661067}
+  - component: {fileID: 2664601289865029585}
+  - component: {fileID: 2664601289865029584}
+  - component: {fileID: 2664601289865029599}
+  - component: {fileID: 5670590521298025651}
   m_Layer: 0
-  m_Name: Segment
+  m_Name: FakeSnake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6298890057636013671
+--- !u!4 &2664601289865029585
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347420126620381742}
+  m_GameObject: {fileID: 2664601289865029598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,13 +34,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5854018943892185405
+--- !u!212 &2664601289865029584
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347420126620381742}
+  m_GameObject: {fileID: 2664601289865029598}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: d7e47461388045a43840192fcb390d51, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 957fa263be90f0f4da9915989bb62b5d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,15 +86,35 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3300171280130661067
+--- !u!114 &2664601289865029599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347420126620381742}
+  m_GameObject: {fileID: 2664601289865029598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48fa20580f1cd64793311339ba46dc7, type: 3}
+  m_Script: {fileID: 11500000, guid: 930e880c15493c448be607a71b32796d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _segmentObj: {fileID: 6298890057636013671, guid: d0d4820b7b93ac345a6165c4bc8993d8, type: 3}
+  _tailSprite: {fileID: 21300000, guid: acf23060e45874b46b60344f2bf186ea, type: 3}
+  _segmentCount: 10
+  _segmentSize: 1
+--- !u!114 &5670590521298025651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664601289865029598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ef59c9bfb585848a193cca98ee327b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetPos: {x: 0, y: 0}
+  _speed: 0
+  _constantSpeed: 0
+  _activated: 0

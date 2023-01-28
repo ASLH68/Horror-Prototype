@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb2d;
     [SerializeField] private LighterBehaviour _lighterBehaviour;
 
+    private bool _hasKey;
+    public bool HasKey { get => _hasKey; set => _hasKey = value; }
+
     #region Movement Variables
 
     [Header("Movement Information")]
@@ -52,7 +55,7 @@ public class PlayerController : MonoBehaviour
         {
             _currentSpeed = _runSpeed;
         }
-        _rb2d.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized * _currentSpeed;
+        _rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * _currentSpeed;
         DetermineAnim();
     }
 
@@ -64,6 +67,13 @@ public class PlayerController : MonoBehaviour
     {
         return Input.GetKey(KeyCode.LeftShift);
     }
+
+    public void AddFuel(float fuelAmount)
+    {
+        _lighterBehaviour.BlowOutLighter();
+        _lighterBehaviour.AddFuel(fuelAmount);
+    }
+
     #endregion
 
     #region Animations
@@ -74,7 +84,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="name"></param>
     private void PlayAnimation(string name)
     {
-        if (_lighterBehaviour.LighterOn())
+        if (_lighterBehaviour.TurnedOn)
         {
             _anim.Play(name + "Lighter");
         }

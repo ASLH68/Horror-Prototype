@@ -18,6 +18,7 @@ public class LighterBehaviour : MonoBehaviour
 
     [Header("General Info")]
     private bool _turnedOn;
+    [SerializeField]
     private float _fuelAmount;
 
     [Header("Lighter Settings")]
@@ -68,13 +69,10 @@ public class LighterBehaviour : MonoBehaviour
     {
         if (_plrRb2d.velocity.magnitude > _maxMoveSpeed)
         {
-            if (_lightCoroutine != null)
+            if (Random.value > 0.9975f)
             {
-                StopCoroutine(_lightCoroutine);
+                BlowOutLighter();
             }
-            transform.localScale = Vector2.zero;
-            _targetSize = 0;
-            _turnedOn = false;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -104,6 +102,11 @@ public class LighterBehaviour : MonoBehaviour
         transform.localScale = ((_targetSize * _lightSpeed * Vector3.one) + (transform.localScale * (1 - _lightSpeed))) * sizeRatio * flickerSizeRatio;
     }
 
+    public void AddFuel(float fuelAmount)
+    {
+        _fuelAmount = Mathf.Min(_fuelAmount + fuelAmount, 1);
+    }
+
     private IEnumerator FlickLighter()
     {
         if (_fuelAmount > 0)
@@ -129,11 +132,14 @@ public class LighterBehaviour : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Returns where or not the lighter is turned on
-    /// </summary>
-    public bool LighterOn()
+    public void BlowOutLighter()
     {
-        return _turnedOn;
+        if (_lightCoroutine != null)
+        {
+            StopCoroutine(_lightCoroutine);
+        }
+        transform.localScale = Vector2.zero;
+        _targetSize = 0;
+        _turnedOn = false;
     }
 }
