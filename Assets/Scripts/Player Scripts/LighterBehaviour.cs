@@ -1,6 +1,6 @@
 /*****************************************************************************
 // File Name :         LighterBehaviour.cs
-// Author :            Charlie Polonus
+// Author :            Charlie Polonus, Andrea Swihart-DeCoster
 // Creation Date :     January 25th, 2023
 //
 // Brief Description : This script controls the enabling/disabling of the lighter
@@ -55,6 +55,7 @@ public class LighterBehaviour : MonoBehaviour
 
     public bool OutOfFuel => _fuelAmount <= 0;
     public bool TurnedOn => _turnedOn;
+    public float FuelAmount => _fuelAmount;
 
     // Start is called before the first frame update
     void Start()
