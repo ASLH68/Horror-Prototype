@@ -20,6 +20,8 @@ public class TriggerBehaviour : MonoBehaviour
     private FakeSnakeMovement _fakeSnake;
     [SerializeField]
     private GameObject _destroyObj;
+    [SerializeField]
+    private int _switchMusic;
 
     [Header("Specifics")]
     [SerializeField]
@@ -59,6 +61,15 @@ public class TriggerBehaviour : MonoBehaviour
         {
             _fakeSnake.Activated = true;
         }
+
+        if (_switchMusic == -1)
+        {
+            StartCoroutine(StopMusic());
+        }
+        else if (_switchMusic != 0)
+        {
+            StartCoroutine(MusicSwitch(_switchMusic - 1, 4));
+        }
     }
 
     void Update()
@@ -67,5 +78,37 @@ public class TriggerBehaviour : MonoBehaviour
         {
             Trigger();
         }
+    }
+
+    private IEnumerator MusicSwitch(int newSongNum, float time)
+    {
+        AudioSource newSong = _player.GetComponents<AudioSource>()[newSongNum];
+        AudioSource oldSong = _player.GetComponents<AudioSource>()[newSongNum == 0 ? 1 : 0];
+
+        float curTime = 0;
+        while (curTime < time)
+        {
+            oldSong.volume = Mathf.Clamp01(Mathf.Min((1 - (curTime / time)) * 0.15f, oldSong.volume));
+            newSong.volume = (curTime / time) * 0.15f;
+
+            curTime = Mathf.Min(curTime + Time.deltaTime, time);
+            yield return null;
+        }
+        oldSong.volume = 0;
+    }
+
+    private IEnumerator StopMusic()
+    {
+        AudioSource curSong = _player.GetComponents<AudioSource>()[1];
+
+        float curTime = 0;
+        while (curTime < 10)
+        {
+            curSong.volume = (1 - (curTime / 10)) * 0.15f;
+
+            curTime = Mathf.Min(curTime + Time.deltaTime, 10);
+            yield return null;
+        }
+        curSong.volume = 0;
     }
 }

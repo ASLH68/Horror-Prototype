@@ -63,6 +63,10 @@ public class LighterBehaviour : MonoBehaviour
         _fuelAmount = 1f;
         _targetSize = 0;
         _turnedOn = false;
+
+        _flickFailChance = 0;
+        _lightCoroutine = StartCoroutine(FlickLighter());
+        _flickFailChance = 0.1f;
     }
 
     // Update is called once per frame

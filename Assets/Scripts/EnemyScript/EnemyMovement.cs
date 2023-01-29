@@ -45,6 +45,9 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Internal")]
     private Coroutine _chargeCoroutine;
+    private bool _attacking;
+
+    public bool Attacking => _attacking;
 
     public void SetMovementType(MovementType type)
     {
@@ -59,6 +62,7 @@ public class EnemyMovement : MonoBehaviour
             if (_chargeCoroutine != null)
             {
                 StopCoroutine(_chargeCoroutine);
+                _attacking = false;
                 _chargeCoroutine = null;
             }
             _speed = _passiveSpeed;
@@ -130,6 +134,7 @@ public class EnemyMovement : MonoBehaviour
             yield return null;
         }
 
+        _attacking = true;
         _constantSpeed = true;
         _movementType = MovementType.FollowObj;
         _speed = _aggroSpeed;
