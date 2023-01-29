@@ -28,6 +28,8 @@ public class TriggerBehaviour : MonoBehaviour
     private bool _blowOutLighter;
     [SerializeField]
     private Vector2 _movePlayerEnemy;
+    [SerializeField]
+    private bool _endGame;
 
     private void Start()
     {
@@ -69,6 +71,11 @@ public class TriggerBehaviour : MonoBehaviour
         else if (_switchMusic != 0)
         {
             StartCoroutine(MusicSwitch(_switchMusic - 1, 4));
+        }
+
+        if (_endGame)
+        {
+            _snake.EndGame();
         }
     }
 

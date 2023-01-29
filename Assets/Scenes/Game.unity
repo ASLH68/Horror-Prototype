@@ -42804,7 +42804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4949462140904310268, guid: 4ff12bf806695f5499e1042c119d96ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 36.5
+      value: 46.5
       objectReference: {fileID: 0}
     - target: {fileID: 4949462140904310268, guid: 4ff12bf806695f5499e1042c119d96ee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -77212,16 +77212,20 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 665214679793632465, guid: fe0757901e2876746b95f620928eed26, type: 3}
+      propertyPath: _endGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 665214679793632465, guid: fe0757901e2876746b95f620928eed26, type: 3}
       propertyPath: _triggerTimes
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 665214679793632465, guid: fe0757901e2876746b95f620928eed26, type: 3}
       propertyPath: _blowOutLighter
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8122615720962876468, guid: fe0757901e2876746b95f620928eed26, type: 3}
       propertyPath: m_Name
-      value: BlowOut5
+      value: Endgame
       objectReference: {fileID: 0}
     - target: {fileID: 8122615720962876468, guid: fe0757901e2876746b95f620928eed26, type: 3}
       propertyPath: m_StaticEditorFlags

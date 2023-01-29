@@ -46,6 +46,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("Internal")]
     private Coroutine _chargeCoroutine;
     private bool _attacking;
+    private bool _normalMovement = true;
 
     public bool Attacking => _attacking;
 
@@ -57,21 +58,24 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (_lighter.TurnedOn)
+        if (_normalMovement)
         {
-            if (_chargeCoroutine != null)
+            if (_lighter.TurnedOn)
             {
-                StopCoroutine(_chargeCoroutine);
-                _attacking = false;
-                _chargeCoroutine = null;
+                if (_chargeCoroutine != null)
+                {
+                    StopCoroutine(_chargeCoroutine);
+                    _attacking = false;
+                    _chargeCoroutine = null;
+                }
+                _speed = _passiveSpeed;
+                _movementType = MovementType.CircleAroundObj;
+                _constantSpeed = false;
             }
-            _speed = _passiveSpeed;
-            _movementType = MovementType.CircleAroundObj;
-            _constantSpeed = false;
-        }
-        else if (_chargeCoroutine == null)
-        {
-            _chargeCoroutine = StartCoroutine(Charge());
+            else if (_chargeCoroutine == null)
+            {
+                _chargeCoroutine = StartCoroutine(Charge());
+            }
         }
 
         Vector2 followPos = transform.position;
@@ -116,6 +120,33 @@ public class EnemyMovement : MonoBehaviour
                 transform.position = (transform.position * (1 - movementRatio)) + ((Vector3)followPos * movementRatio);
             }
         }
+    }
+
+    public void EndGame()
+    {
+        _normalMovement = false;
+        StopAllCoroutines();
+        StartCoroutine(TriggerEndgame());
+    }
+
+    private IEnumerator TriggerEndgame()
+    {
+        while (_radius > 10)
+        {
+            _radius -= Time.deltaTime;
+            yield return null;
+        }
+        _lighter.BlowOutLighter();
+        transform.position += Vector3.up * 200;
+        _movementType = MovementType.Static;
+
+        while (!_lighter.TurnedOn)
+        {
+            yield return null;
+        }
+        _movementType = MovementType.FollowObj;
+        _speed = 50;
+        _attacking = true;
     }
 
     private Vector2 AddVector(float angle, float radius)
