@@ -48,6 +48,8 @@ public class LighterBehaviour : MonoBehaviour
     private Vector2 _flickerSize;
     [SerializeField]
     private float _sizeShrinkRate;
+    [SerializeField]
+    private AnimationCurve _lighterRatio;
 
     [Header("Internal")]
     private float _targetSize;
@@ -101,7 +103,7 @@ public class LighterBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        float sizeRatio = -Mathf.Pow(2, Mathf.Pow(Mathf.Clamp01(1 - _fuelAmount), _sizeShrinkRate)) + 2;
+        float sizeRatio = -Mathf.Pow(2, Mathf.Pow(Mathf.Clamp01(1 - _lighterRatio.Evaluate(_fuelAmount)), _sizeShrinkRate)) + 2;
         float flickerSizeRatio = Random.Range(_flickerSize.x, _flickerSize.y);
 
         transform.localScale = ((_targetSize * _lightSpeed * Vector3.one) + (transform.localScale * (1 - _lightSpeed))) * sizeRatio * flickerSizeRatio;
@@ -127,7 +129,7 @@ public class LighterBehaviour : MonoBehaviour
                 _targetSize = _lightSize;
                 while (_fuelAmount > 0)
                 {
-                    _fuelAmount -= _passiveFuelCost;
+                    _fuelAmount -= _passiveFuelCost * (_fuelAmount > 0.25f ? 1 : 0.5f);
                     yield return new WaitForSeconds(1);
                 }
 

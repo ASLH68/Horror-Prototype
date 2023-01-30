@@ -71,7 +71,6 @@ public class PlayerController : MonoBehaviour
 
     public void AddFuel(float fuelAmount)
     {
-        _lighterBehaviour.BlowOutLighter();
         _lighterBehaviour.AddFuel(fuelAmount);
     }
 
