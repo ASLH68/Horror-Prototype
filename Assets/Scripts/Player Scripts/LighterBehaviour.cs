@@ -9,12 +9,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class LighterBehaviour : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
     private Rigidbody2D _plrRb2d;
+    private Light2D _light;
 
     [Header("General Info")]
     private bool _turnedOn;
@@ -54,14 +56,19 @@ public class LighterBehaviour : MonoBehaviour
     [Header("Internal")]
     private float _targetSize;
     private Coroutine _lightCoroutine;
+    private bool _isSafe;
+    private GameObject[] _staticLights;
 
     public bool OutOfFuel => _fuelAmount <= 0;
     public bool TurnedOn => _turnedOn;
     public float FuelAmount => _fuelAmount;
+    public bool IsSafe => _isSafe;
 
     // Start is called before the first frame update
     void Start()
     {
+        _light = GetComponent<Light2D>();
+
         _fuelAmount = 1f;
         _targetSize = 0;
         _turnedOn = false;
@@ -69,6 +76,8 @@ public class LighterBehaviour : MonoBehaviour
         _flickFailChance = 0;
         _lightCoroutine = StartCoroutine(FlickLighter());
         _flickFailChance = 0.1f;
+
+        _staticLights = GameObject.FindGameObjectsWithTag("SafeLight");
     }
 
     // Update is called once per frame
@@ -99,6 +108,18 @@ public class LighterBehaviour : MonoBehaviour
                 _lightCoroutine = StartCoroutine(FlickLighter());
             }
         }
+
+        bool isSafe = false;
+        foreach (GameObject curObj in _staticLights)
+        {
+            Light2D light = curObj.GetComponent<Light2D>();
+            if (curObj.GetComponent<CircleCollider2D>().OverlapPoint(transform.position))
+            {
+                isSafe = true;
+                break;
+            }
+        }
+        _isSafe = isSafe;
     }
 
     void FixedUpdate()
@@ -106,7 +127,7 @@ public class LighterBehaviour : MonoBehaviour
         float sizeRatio = -Mathf.Pow(2, Mathf.Pow(Mathf.Clamp01(1 - _lighterRatio.Evaluate(_fuelAmount)), _sizeShrinkRate)) + 2;
         float flickerSizeRatio = Random.Range(_flickerSize.x, _flickerSize.y);
 
-        transform.localScale = ((_targetSize * _lightSpeed * Vector3.one) + (transform.localScale * (1 - _lightSpeed))) * sizeRatio * flickerSizeRatio;
+        _light.pointLightOuterRadius = ((_targetSize * _lightSpeed) + (_light.pointLightOuterRadius * (1 - _lightSpeed))) * sizeRatio * flickerSizeRatio;
     }
 
     public void AddFuel(float fuelAmount)
