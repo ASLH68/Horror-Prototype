@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static, GoTo }
+    public enum MovementType { FollowObj, FollowMouse, CircleAroundObj, Static, GoTo, Wander }
 
     [Header("References")]
     [SerializeField]
@@ -34,6 +34,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("Follow Object")]
     [SerializeField]
     private Transform _followObj;
+    private Vector2 _followPos;
 
     [Header("Circle Around Object")]
     [SerializeField]
@@ -78,35 +79,50 @@ public class EnemyMovement : MonoBehaviour
             }
         }
 
-        Vector2 followPos = transform.position;
-
         if (_movementType == MovementType.FollowObj)
         {
-            followPos = _followObj.position;
+            _followPos = _followObj.position;
         }
         else if (_movementType == MovementType.FollowMouse)
         {
-            followPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _followPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
         else if (_movementType == MovementType.GoTo)
         {
-            followPos = _targetPos;
+            _followPos = _targetPos;
         }
-
-        if (_movementType == MovementType.CircleAroundObj)
+        else if (_movementType == MovementType.Static)
+        {
+            _followPos = transform.position;
+        }
+        else if (_movementType == MovementType.CircleAroundObj)
         {
             Vector2 circleDir = (transform.position - _followObj.position).normalized;
             float circleAngle = Mathf.Atan2(circleDir.y, circleDir.x) * Mathf.Rad2Deg;
             float nextAngle = (circleAngle + ((10 * _speed) / Mathf.Max(_radius, 1))) % 360;
 
-            followPos = (Vector2)_followObj.position + AddVector(nextAngle, _radius);
+            _followPos = (Vector2)_followObj.position + AddVector(nextAngle, _radius);
+        }
+        else if (_movementType == MovementType.Wander)
+        {
+            if (Vector2.Distance(transform.position, _followPos) < 1)
+            {
+                float distanceRatio = Mathf.Clamp01(Vector2.Distance(transform.position, _followObj.position) / _radius);
+                float newRadius = Mathf.Clamp((-3 * ((distanceRatio + Random.Range(-0.25f, 0.25f)) / 4f) + 1), 0.25f, 1) * _radius;
+
+                Vector2 circleDir = (transform.position - _followObj.position).normalized;
+                float circleAngle = Mathf.Atan2(circleDir.y, circleDir.x) * Mathf.Rad2Deg;
+                float nextAngle = (circleAngle + ((Random.Range(-45f, 45f) * _speed) / Mathf.Max(_radius, 1))) % 360;
+
+                _followPos = (Vector2)_followObj.position + AddVector(nextAngle, newRadius);
+            }
         }
 
-        Vector3 direction = (Vector3)followPos - transform.position;
+        Vector3 direction = (Vector3)_followPos - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.eulerAngles = Vector3.forward * angle;
 
-        float distanceToNext = Vector2.Distance(followPos, transform.position);
+        float distanceToNext = Vector2.Distance(_followPos, transform.position);
 
         if (distanceToNext > 0)
         {
@@ -117,7 +133,7 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 float movementRatio = -(1 / Mathf.Max((((distanceToNext * _speed) / 10000) + 1), 0.001f)) + 1;
-                transform.position = (transform.position * (1 - movementRatio)) + ((Vector3)followPos * movementRatio);
+                transform.position = (transform.position * (1 - movementRatio)) + ((Vector3)_followPos * movementRatio);
             }
         }
     }
