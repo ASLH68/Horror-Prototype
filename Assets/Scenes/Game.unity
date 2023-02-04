@@ -98976,6 +98976,69 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8122615720962876469, guid: fe0757901e2876746b95f620928eed26, type: 3}
   m_PrefabInstance: {fileID: 1373380757}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &504998659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 504998660}
+  - component: {fileID: 504998661}
+  m_Layer: 5
+  m_Name: FuelReserve
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &504998660
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504998659}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 557832320}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -946.27, y: -527.6}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &504998661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504998659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -99212,6 +99275,7 @@ GameObject:
   - component: {fileID: 557832318}
   - component: {fileID: 557832317}
   - component: {fileID: 557832316}
+  - component: {fileID: 557832321}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -99232,8 +99296,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lighterBehaviour: {fileID: 636773446}
+  _fuelItemUI: {fileID: 557832321}
   _fuelIndicatorScreen: {fileID: 290022262}
   _fuel: {fileID: 1298558089}
+  _refuelTime: 4.5
+  _incrementTime: 0.5
 --- !u!114 &557832317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99308,6 +99375,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 290022263}
+  - {fileID: 504998660}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -99316,6 +99384,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &557832321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557832315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c318314926934134793732b57f18e086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fuelUILayout: {fileID: 504998659}
+  _fuelPickup: {fileID: 4110116872972636362, guid: c738b1a65eecb8f46bcd3c5ab134c241, type: 3}
+  _fuelsAdded: []
 --- !u!1001 &566024921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128494,11 +128577,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _plrRb2d: {fileID: 1124504725}
+  _pc: {fileID: 1124504724}
   _fuelAmount: 0
   _passiveFuelCost: 0.005
   _flickFuelCost: 0.025
   _flickFailChance: 0.1
   _maxMoveSpeed: 6
+  FuelAddAmount: 0.333
   _lightSize: 4.5
   _flickSize: 9
   _lightSpeed: 0.025
@@ -129895,6 +129980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb2d: {fileID: 1124504725}
   _lighterBehaviour: {fileID: 636773446}
+  _fuelItemUI: {fileID: 557832321}
   _speed: 4
   _runSpeed: 7
   _anim: {fileID: 1124504726}
@@ -132553,7 +132639,7 @@ Transform:
   m_GameObject: {fileID: 1874149412}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25.859999, y: 25.859999, z: 25.859999}
+  m_LocalScale: {x: 23.42, y: 23.42, z: 23.42}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 806795870}
