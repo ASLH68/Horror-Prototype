@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Rigidbody2D _rb2d;
     [SerializeField] private LighterBehaviour _lighterBehaviour;
+    [SerializeField] private FuelItemUI _fuelItemUI;
 
     private bool _hasKey;
     public bool HasKey { get => _hasKey; set => _hasKey = value; }
@@ -71,7 +72,8 @@ public class PlayerController : MonoBehaviour
 
     public void AddFuel(float fuelAmount)
     {
-        _lighterBehaviour.AddFuel(fuelAmount);
+        _fuelItemUI.AddFuel();
+        //_lighterBehaviour.AddFuel(fuelAmount);
     }
 
     #endregion

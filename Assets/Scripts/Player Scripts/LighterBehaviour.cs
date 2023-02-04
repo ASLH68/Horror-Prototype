@@ -39,6 +39,7 @@ public class LighterBehaviour : MonoBehaviour
     private float _flickFailChance;
     [SerializeField]
     private float _maxMoveSpeed;
+    public float FuelAddAmount;
 
     [Header("Visual Settings")]
     [SerializeField]
@@ -133,7 +134,10 @@ public class LighterBehaviour : MonoBehaviour
 
     public void AddFuel(float fuelAmount)
     {
-        _fuelAmount = Mathf.Min(_fuelAmount + fuelAmount, 1);
+        if (_fuelAmount < 1)
+        {
+            _fuelAmount += fuelAmount;
+        }
     }
 
     private IEnumerator FlickLighter()
