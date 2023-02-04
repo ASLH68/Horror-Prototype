@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     /// Determines if the player is running
     /// </summary>
     /// <returns> True if player is holding shift </returns>
-    private bool IsRunning()
+    public bool IsRunning()
     {
         return Input.GetKey(KeyCode.LeftShift);
     }

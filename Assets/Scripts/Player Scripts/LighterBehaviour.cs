@@ -17,6 +17,7 @@ public class LighterBehaviour : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _plrRb2d;
     private Light2D _light;
+    [SerializeField] PlayerController _pc;
 
     [Header("General Info")]
     private bool _turnedOn;
@@ -103,7 +104,7 @@ public class LighterBehaviour : MonoBehaviour
                 _targetSize = 0;
                 _turnedOn = false;
             }
-            else
+            else if(!_pc.IsRunning())
             {
                 _lightCoroutine = StartCoroutine(FlickLighter());
             }
