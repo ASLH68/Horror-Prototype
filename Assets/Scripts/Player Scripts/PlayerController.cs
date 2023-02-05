@@ -122,13 +122,13 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("SnakeHead"))
         {
-            if (collision.gameObject.GetComponent<EnemyMovement>().Attacking)
-            {
-                SceneManager.LoadScene("GameOver");
-            }
-            else if (collision.gameObject.GetComponent<EnemyMovement>().endGame)
+            if (collision.gameObject.GetComponent<EnemyMovement>().endGame)
             {
                 SceneManager.LoadScene("TheEnd");
+            }
+            else if (collision.gameObject.GetComponent<EnemyMovement>().Attacking)
+            {
+                SceneManager.LoadScene("GameOver");
             }
         }
     }

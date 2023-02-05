@@ -93,7 +93,7 @@ public class LighterBehaviour : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && _plrRb2d.velocity.magnitude <= 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (_lightCoroutine != null)
             {
@@ -165,12 +165,18 @@ public class LighterBehaviour : MonoBehaviour
         }
     }
 
-    public void BlowOutLighter()
+    public void BlowOutLighter(bool instant = false)
     {
         if (_lightCoroutine != null)
         {
             StopCoroutine(_lightCoroutine);
         }
+
+        if (instant)
+        {
+            _light.pointLightOuterRadius = 0;
+        }
+
         transform.localScale = Vector2.zero;
         _targetSize = 0;
         _turnedOn = false;

@@ -148,13 +148,15 @@ public class EnemyMovement : MonoBehaviour
 
     private IEnumerator TriggerEndgame()
     {
-        while (_radius > 8)
+        _movementType = MovementType.CircleAroundObj;
+
+        while (_radius > 6)
         {
             _radius -= Time.deltaTime;
             Camera.main.orthographicSize += 0.1f * Time.deltaTime;
             yield return null;
         }
-        _lighter.BlowOutLighter();
+        _lighter.BlowOutLighter(true);
         transform.position += Vector3.up * 200;
         _movementType = MovementType.Static;
 
