@@ -78,5 +78,6 @@ public class FuelIndicator : MonoBehaviour
             _lighterBehaviour.AddFuel(amountPerTick);
             yield return new WaitForSeconds(_incrementTime);
         }
+        _fuelItemUI.RemoveFuel();
     }
 }
