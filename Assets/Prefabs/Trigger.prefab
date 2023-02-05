@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8122615720962876469
 Transform:
@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radius: 0
-  _triggerOnce: 0
+  _triggerTimes: 0
+  _curTriggerTimes: 0
+  _fakeSnake: {fileID: 0}
+  _destroyObj: {fileID: 0}
+  _switchMusic: 0
   _blowOutLighter: 0
   _movePlayerEnemy: {x: 0, y: 0}
+  _endGame: 0

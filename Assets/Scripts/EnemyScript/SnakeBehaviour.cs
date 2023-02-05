@@ -24,9 +24,12 @@ public class SnakeBehaviour : MonoBehaviour
     [SerializeField]
     private float _segmentSize;
 
+    public List<SegmentBehaviour> segments;
+
     // Start is called before the first frame update
     void Start()
     {
+        segments = new();
         CreateSnake();
     }
 
@@ -37,6 +40,7 @@ public class SnakeBehaviour : MonoBehaviour
         for (int i = 0; i < _segmentCount; i++)
         {
             curInit = Instantiate(_segmentObj, transform.position, Quaternion.identity);
+            segments.Add(curInit.GetComponent<SegmentBehaviour>());
             curInit.GetComponent<SegmentBehaviour>().Init(curNext, _segmentSize);
             curNext = curInit;
 

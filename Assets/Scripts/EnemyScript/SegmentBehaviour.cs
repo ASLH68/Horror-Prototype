@@ -35,4 +35,9 @@ public class SegmentBehaviour : MonoBehaviour
             transform.position = (transform.position * (1 - movementRatio)) + (_next.position * movementRatio);
         }
     }
+
+    public void Regroup(Vector2 difference)
+    {
+        transform.position += (Vector3)difference;
+    }
 }

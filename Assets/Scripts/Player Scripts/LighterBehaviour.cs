@@ -71,7 +71,7 @@ public class LighterBehaviour : MonoBehaviour
     {
         _light = GetComponent<Light2D>();
 
-        _fuelAmount = 1f;
+        _fuelAmount = 0f;
         _targetSize = 0;
         _turnedOn = false;
 
@@ -93,7 +93,7 @@ public class LighterBehaviour : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space) && _plrRb2d.velocity.magnitude <= 0)
         {
             if (_lightCoroutine != null)
             {

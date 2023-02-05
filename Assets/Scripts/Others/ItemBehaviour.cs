@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ItemBehaviour : MonoBehaviour
 {
-    private enum ItemType { Key, Fuel }
+    private enum ItemType { Key, Fuel, Lighter }
 
     [SerializeField]
     private ItemType _type;
     [SerializeField]
-    private float _fuelAmount = 0.25f;
+    private float _fuelAmount;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -23,10 +23,6 @@ public class ItemBehaviour : MonoBehaviour
                 case ItemType.Fuel:
                     FindObjectOfType<PlayerController>().AddFuel(_fuelAmount);
                     break;
-            }
-            if (_type == ItemType.Key)
-            {
-                FindObjectOfType<PlayerController>().HasKey = true;
             }
             Destroy(gameObject);
         }

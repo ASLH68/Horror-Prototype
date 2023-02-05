@@ -50,6 +50,7 @@ public class EnemyMovement : MonoBehaviour
     private bool _normalMovement = true;
 
     public bool Attacking => _attacking;
+    public bool endGame = false;
 
     public void SetMovementType(MovementType type)
     {
@@ -147,9 +148,10 @@ public class EnemyMovement : MonoBehaviour
 
     private IEnumerator TriggerEndgame()
     {
-        while (_radius > 10)
+        while (_radius > 8)
         {
             _radius -= Time.deltaTime;
+            Camera.main.orthographicSize += 0.1f * Time.deltaTime;
             yield return null;
         }
         _lighter.BlowOutLighter();
@@ -163,6 +165,7 @@ public class EnemyMovement : MonoBehaviour
         _movementType = MovementType.FollowObj;
         _speed = 50;
         _attacking = true;
+        endGame = true;
     }
 
     private Vector2 AddVector(float angle, float radius)
@@ -173,7 +176,11 @@ public class EnemyMovement : MonoBehaviour
     private IEnumerator Charge()
     {
         _movementType = MovementType.GoTo;
-        _targetPos = transform.position + (Vector3.up * 100);
+
+        Vector2 circleDir = (transform.position - _followObj.position).normalized;
+        float circleAngle = Mathf.Atan2(circleDir.y, circleDir.x) * Mathf.Rad2Deg;
+        _targetPos = (Vector2)_followObj.position + AddVector(circleAngle, 100);
+
         _speed = _passiveSpeed / 2;
 
         while (Vector2.Distance(transform.position, _targetPos) > 1)
@@ -186,5 +193,12 @@ public class EnemyMovement : MonoBehaviour
         _movementType = MovementType.FollowObj;
         _speed = _aggroSpeed;
     }
-    
+
+    public void Regroup(Vector2 difference)
+    {
+        foreach (SegmentBehaviour segment in GetComponent<SnakeBehaviour>().segments)
+        {
+            segment.Regroup(difference);
+        }
+    }
 }

@@ -57,6 +57,7 @@ public class TriggerBehaviour : MonoBehaviour
         {
             _player.transform.position += (Vector3)_movePlayerEnemy;
             _snake.transform.position += (Vector3)_movePlayerEnemy;
+            _snake.Regroup(_movePlayerEnemy);
         }
 
         if (_fakeSnake != null)

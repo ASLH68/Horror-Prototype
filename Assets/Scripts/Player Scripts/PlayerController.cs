@@ -120,10 +120,16 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("SnakeHead")
-            && collision.gameObject.GetComponent<EnemyMovement>().Attacking)
+        if (collision.gameObject.CompareTag("SnakeHead"))
         {
-            SceneManager.LoadScene("GameOver");
+            if (collision.gameObject.GetComponent<EnemyMovement>().Attacking)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+            else if (collision.gameObject.GetComponent<EnemyMovement>().endGame)
+            {
+                SceneManager.LoadScene("TheEnd");
+            }
         }
     }
 }
