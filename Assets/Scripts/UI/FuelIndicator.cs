@@ -7,6 +7,7 @@
 *****************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,26 +24,30 @@ public class FuelIndicator : MonoBehaviour
     [SerializeField] private float _refuelTime; // total time it takes to add the full fuel amount
     [SerializeField] private float _incrementTime;  // # times the fuel will tick up
 
+    private bool _isFueling = false;
+
 
     private void Update()
     {
         // If player is looking at the fuel level indicator and presses E, they can refuel as long as they have fuel.
         // If they release E, the fueling stops and they lose the fuel
-        if(Input.GetKey(KeyCode.Tab))
+        if ((Input.GetKeyUp(KeyCode.Tab) || Input.GetKeyUp(KeyCode.E)) && _isFueling)
+        {
+            _isFueling = false;
+            StopAllCoroutines();
+            _fuelItemUI.RemoveFuel();
+        }
+        if (Input.GetKey(KeyCode.Tab))
         {
             ShowIndicator();
 
             if(Input.GetKeyDown(KeyCode.E))
             {
+                _isFueling = true;
                 if (_fuelItemUI.NumFuel > 0)
                 {
                     StartCoroutine(AddFuel(_lighterBehaviour.FuelAddAmount));
                 }
-            }
-            if (Input.GetKeyUp(KeyCode.E))
-            {
-                StopAllCoroutines();
-                _fuelItemUI.RemoveFuel();
             }
         }
         else
@@ -78,6 +83,7 @@ public class FuelIndicator : MonoBehaviour
             _lighterBehaviour.AddFuel(amountPerTick);
             yield return new WaitForSeconds(_incrementTime);
         }
+        _isFueling = false;
         _fuelItemUI.RemoveFuel();
     }
 }
