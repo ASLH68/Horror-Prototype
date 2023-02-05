@@ -62,7 +62,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (_normalMovement)
         {
-            if ((_lighter.TurnedOn && _lighter.FuelAmount > 0.1f) || _lighter.IsSafe)
+            if (_lighter.TurnedOn || _lighter.IsSafe)
             {
                 if (_chargeCoroutine != null)
                 {
